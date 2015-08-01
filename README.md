@@ -1,12 +1,59 @@
-# angular-auth-bearer-token
+# Angular Auth Bearer Token Strategy
 
-This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
-version 0.12.1.
+AKA RFC 6750: https://tools.ietf.org/html/rfc6750
 
-## Build & development
+A simple an unobtrusive way to add bearer token authentication strategy to your angular project.
 
-Run `grunt` for building and `grunt serve` for preview.
+## Installation
+
+Install via Bower:
+
+```
+bower install angular-auth-bearer-token --save
+```
+
+Require the module in your app:
+
+```
+angular.module('yourApp', ['auth.bearer-token']);
+```
+
+## How it works
+
+An HTTP interceptor will automatically store the authorization header from
+any request with an `Authorization`  header.
+
+Future requests will always include the authorization token.
+
+## TODO
+
+* Only store authorization if header matches `Bearer`
+* Check the RFC to see if we're missing anything here
+* What do you need? Let me know!
 
 ## Testing
 
-Running `grunt test` will run the unit tests with karma.
+Clone it:
+
+```
+git clone https://github.com/matmar10/angular-auth-bearer-token.git
+```
+
+Install deps:
+
+```
+npm install && bower install
+```
+
+Test it:
+
+```
+grunt test
+```
+
+## Contributing
+
+Please adhere to JSHint code quality standard as specified in .jshintrc
+
+
+
