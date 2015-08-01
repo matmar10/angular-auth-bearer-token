@@ -10,7 +10,7 @@ describe('auth.bearer-token', function () {
     beforeEach(function () {
       module(function($httpProvider) {
         httpProvider = $httpProvider;
-      })
+      });
     });
 
     beforeEach(inject());

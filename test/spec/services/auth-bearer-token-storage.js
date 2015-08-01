@@ -1,7 +1,7 @@
 'use strict';
 
 describe('Service: authBearerTokenHttpInterceptor', function () {
-  var interceptor, $cookies, storage;
+  var $cookies, storage;
 
   // load the controller's module
   beforeEach(module('auth.bearer-token'));

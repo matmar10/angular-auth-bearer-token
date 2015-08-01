@@ -54,11 +54,6 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('test', [
-    'karma'
-  ]);
-
-  grunt.registerTask('default', [
-    'test'
-  ]);
+  grunt.registerTask('test', [ 'karma' ]);
+  grunt.registerTask('default', [ 'jshint', 'test' ]);
 };
