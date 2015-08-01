@@ -1,8 +1,26 @@
 {
   "name": "angular-auth-bearer-token",
   "version": "0.0.0",
-  "author": "Matthew J. Martin <matthew.mar10@gmail.com.com>",
+  "author": "Matthew J. Martin <matthew.mar10@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:matmar10/angular-auth-bearer-token.git"
+  },
+  "keywords": [
+    "auth",
+    "angular",
+    "http",
+    "$http",
+    "authentication",
+    "bearer",
+    "bearer token",
+    "token",
+    "rfc",
+    "rfc 6750",
+    "interceptor",
+    "bower"
+  ],
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-jshint": "^0.11.0",
