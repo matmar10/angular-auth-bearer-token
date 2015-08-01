@@ -49,8 +49,7 @@ module.exports = function (grunt) {
     // rev version and tag for release
     release: {
       options: {
-        npm: false,
-        github: false
+        additionalFiles: ['bower.json']
       }
     }
   });
