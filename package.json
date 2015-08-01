@@ -1,6 +1,6 @@
 {
   "name": "angular-auth-bearer-token",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "Matthew J. Martin <matthew.mar10@gmail.com>",
   "license": "MIT",
   "repository": {
@@ -25,6 +25,7 @@
     "grunt": "^0.4.5",
     "grunt-contrib-jshint": "^0.11.0",
     "grunt-karma": "^0.12.0",
+    "grunt-release": "^0.13.0",
     "jasmine-core": "^2.3.4",
     "jshint-stylish": "^1.0.0",
     "karma": "^0.13.3",
