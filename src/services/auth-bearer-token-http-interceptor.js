@@ -13,7 +13,7 @@ angular.module('auth.bearer-token').factory('authBearerTokenHttpInterceptor', [
           return request;
         }
 
-        $log.log('authBearerTokenHttpInterceptor::request - authorization is present in storage (will add to request)');
+        $log.debug('authBearerTokenHttpInterceptor::request - authorization is present in storage (will add to request)');
         request.headers.Authorization = token;
         return request;
       },
