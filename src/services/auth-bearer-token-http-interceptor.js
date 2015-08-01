@@ -26,6 +26,11 @@ angular.module('auth.bearer-token').factory('authBearerTokenHttpInterceptor', [
           return response;
         }
 
+        if (!token.match(/Bearer/)) {
+          $log.debug('authBearerTokenHttpInterceptor::response - authorization is present in response but is not Bearer token (will NOT update token in storage)');
+          return response;
+        }
+
         $log.debug('authBearerTokenHttpInterceptor::response - authorization is present present in response (will update storage)');
         bearerTokenStorage(token);
         return response;

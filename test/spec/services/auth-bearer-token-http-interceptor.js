@@ -44,5 +44,12 @@ describe('Service: authBearerTokenHttpInterceptor', function () {
     expect(storage()).toBe('Bearer dummy-token-3456');
   });
 
+  it('it should ignore non-Bearer tokens', function () {
+    interceptor.response({ headers: function () {
+      return 'foobar';
+    }});
+    expect(storage()).toBeUndefined();
+  });
+
 
 });

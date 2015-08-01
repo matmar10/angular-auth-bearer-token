@@ -32,4 +32,53 @@ describe('Service: authBearerTokenHttpInterceptor', function () {
     expect($cookies.bearerToken).toBeUndefined();
   });
 
+
+
+  it('should emit the session start, update, and end events', inject(function ($injector) {
+    var starts = 0, updates = 0, ends = 0, events, $rootScope;
+
+    events = $injector.get('authBearerTokenEvents');
+    $rootScope = $injector.get('$rootScope');
+
+    $rootScope.$on(events.SESSION_START, function () {
+      starts++;
+    });
+    $rootScope.$on(events.SESSION_END, function () {
+      ends++;
+    });
+    $rootScope.$on(events.SESSION_UPDATE, function () {
+      updates++;
+    });
+
+    storage('Bearer token-number-1');
+    expect(starts).toBe(1);
+    expect(updates).toBe(0);
+    expect(ends).toBe(0);
+
+    storage('Bearer token-number-2');
+    expect(starts).toBe(1);
+    expect(updates).toBe(1);
+    expect(ends).toBe(0);
+
+    storage('Bearer token-number-3');
+    expect(starts).toBe(1);
+    expect(updates).toBe(2);
+    expect(ends).toBe(0);
+
+    storage(false);
+    expect(starts).toBe(1);
+    expect(updates).toBe(2);
+    expect(ends).toBe(1);
+
+    storage('Bearer token-number-4');
+    expect(starts).toBe(2);
+    expect(updates).toBe(2);
+    expect(ends).toBe(1);
+
+    storage(false);
+    expect(starts).toBe(2);
+    expect(updates).toBe(2);
+    expect(ends).toBe(2);
+  }));
+
 });
