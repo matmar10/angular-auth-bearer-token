@@ -32,7 +32,12 @@ describe('Service: authBearerTokenHttpInterceptor', function () {
     expect($cookies.bearerToken).toBeUndefined();
   });
 
-
+  it('should store and purge the cookie', function () {
+    storage('Bearer dummy-token-9012');
+    expect($cookies.get('Authorization')).toBe('Bearer dummy-token-9012');
+    storage(false);
+    expect($cookies.get('Authorization')).toBeUndefined();
+  });
 
   it('should emit the session start, update, and end events', inject(function ($injector) {
     var starts = 0, updates = 0, ends = 0, events, $rootScope;

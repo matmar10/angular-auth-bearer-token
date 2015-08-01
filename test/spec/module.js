@@ -22,13 +22,14 @@ describe('auth.bearer-token', function () {
 
 
   describe('behavior of $http with interceptor', function () {
-    var $cookies, $http, $httpBackend, storage;
+    var $cookies, $http, $httpBackend, cookieName, storage;
 
     // Initialize the service and a mock scope
     beforeEach(inject(function ($injector) {
       $cookies = $injector.get('$cookies');
       $http = $injector.get('$http');
       $httpBackend = $injector.get('$httpBackend');
+      cookieName = $injector.get('authBearerTokenCookieName');
       storage = $injector.get('authBearerTokenStorage');
     }));
 
@@ -47,7 +48,7 @@ describe('auth.bearer-token', function () {
         url: '/auth'
       });
       $httpBackend.flush();
-      expect($cookies.bearerToken).toBe('Bearer abracadabra');
+      expect($cookies.get(cookieName)).toBe('Bearer abracadabra');
       expect(storage()).toBe('Bearer abracadabra');
 
       $http({
@@ -55,7 +56,7 @@ describe('auth.bearer-token', function () {
         url: '/user'
       });
       $httpBackend.flush();
-      expect($cookies.bearerToken).toBe('Bearer abracadabra');
+      expect($cookies.get(cookieName)).toBe('Bearer abracadabra');
       expect(storage()).toBe('Bearer abracadabra');
 
       $http({
@@ -63,7 +64,7 @@ describe('auth.bearer-token', function () {
         url: '/user'
       });
       $httpBackend.flush();
-      expect($cookies.bearerToken).toBe('Bearer newtoken');
+      expect($cookies.get(cookieName)).toBe('Bearer newtoken');
       expect(storage()).toBe('Bearer newtoken');
 
     });

@@ -5,12 +5,13 @@ angular.module('auth.bearer-token').factory('authBearerTokenStorage', [
   '$log',
   '$rootScope',
   'authBearerTokenEvents',
-  function ($cookies, $log, $rootScope, authBearerTokenEvents) {
+  'authBearerTokenCookieName',
+  function ($cookies, $log, $rootScope, authBearerTokenEvents, authBearerTokenCookieName) {
     return function (newToken) {
-      var event;
+      var event, existingCookie;
 
       if (false === newToken || null === newToken) {
-        delete $cookies.bearerToken;
+        $cookies.remove(authBearerTokenCookieName);
         $rootScope.$broadcast(authBearerTokenEvents.SESSION_END);
         return null;
       }
@@ -21,15 +22,16 @@ angular.module('auth.bearer-token').factory('authBearerTokenStorage', [
         event = authBearerTokenEvents.SESSION_UPDATE;
 
         // if no token exists yet, we're starting the session
-        if (!$cookies.bearerToken) {
+        existingCookie = $cookies.get(authBearerTokenCookieName);
+        if (!existingCookie) {
           event = authBearerTokenEvents.SESSION_START;
         }
 
-        $cookies.bearerToken = newToken;
+        $cookies.put(authBearerTokenCookieName, newToken);
         $rootScope.$broadcast(event);
       }
 
-      return $cookies.bearerToken;
+      return $cookies.get(authBearerTokenCookieName);
     };
   }
 ]);

@@ -7,6 +7,7 @@ angular.module('auth.bearer-token', ['ngCookies'])
       $httpProvider.interceptors.push('authBearerTokenHttpInterceptor');
     }
   ])
+  .constant('authBearerTokenCookieName', 'Authorization')
   .constant('authBearerTokenEvents', {
     SESSION_START: 'auth:session-start',
     SESSION_END: 'auth:session-end',
