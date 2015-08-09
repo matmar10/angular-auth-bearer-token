@@ -7,6 +7,12 @@
     "type": "git",
     "url": "git@github.com:matmar10/angular-auth-bearer-token.git"
   },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
   "keywords": [
     "auth",
     "angular",
@@ -35,8 +41,5 @@
     "load-grunt-tasks": "^3.2.0",
     "phantomjs": "^1.9.17",
     "time-grunt": "^1.0.0"
-  },
-  "engines": {
-    "node": ">=0.10.0"
   }
 }
