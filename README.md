@@ -1,5 +1,7 @@
 # Angular Auth Bearer Token Strategy
 
+[![Build Status](https://travis-ci.org/matmar10/angular-auth-bearer-token.svg?branch=master)](https://travis-ci.org/matmar10/angular-auth-bearer-token)
+
 AKA RFC 6750: https://tools.ietf.org/html/rfc6750
 
 A simple an unobtrusive way to add bearer token authentication strategy to your angular project.
@@ -57,6 +59,8 @@ Please adhere to JSHint code quality standard as specified in .jshintrc
 
 ## Releases
 
+* **1.0.2**: Add build status to README
+* **1.0.1**: Add travis CI
 * **1.0.0**: Upgrade to Angular 1.4 and use new `$cookies` API
 * **0.2.1**: Downgrade all log levels to `debug` to allow supression in client apps
 * **0.2.0**: Add event system
