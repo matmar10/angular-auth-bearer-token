@@ -27,9 +27,39 @@ any request with an `Authorization`  header.
 
 Future requests will always include the authorization token.
 
+## Configuration Options
+
+* `header` [default: `Authorization`] - What header should be checked/set for requests
+* `log` [default: `debug`] - Log level for logging; set to `false` to disable
+* `tokenRegex` [default: `/Bearer/`] - Regular expression to check if returned authorization header is suitable
+
+### Example
+
+#### Disable logging
+
+```
+angular.module('myApp').config(function ('authBearerTokenHttpInterceptorProvider') {
+  authBearerTokenHttpInterceptorProvider.configure({
+    log: false
+  });
+});
+```
+
+#### Customize header and regex
+
+```
+angular.module('myApp').config(function ('authBearerTokenHttpInterceptorProvider') {
+  authBearerTokenHttpInterceptorProvider.configure({
+    // look/set `Auth` header
+    header: 'Auth',
+    // match anything
+    tokenRegex: /[\s\S]*
+  });
+});
+```
+
 ## TODO
 
-* Only store authorization if header matches `Bearer`
 * Check the RFC to see if we're missing anything here
 * What do you need? Let me know!
 
@@ -59,6 +89,7 @@ Please adhere to JSHint code quality standard as specified in .jshintrc
 
 ## Releases
 
+* **1.1.0**: Add configuration options and examples in README
 * **1.0.2**: Add build status to README
 * **1.0.1**: Add travis CI
 * **1.0.0**: Upgrade to Angular 1.4 and use new `$cookies` API

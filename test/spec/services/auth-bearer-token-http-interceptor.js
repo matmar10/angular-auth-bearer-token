@@ -14,29 +14,29 @@ describe('Service: authBearerTokenHttpInterceptor', function () {
     storage(false);
   }));
 
-  it('it should be defined', function () {
+  it('is defined', function () {
     expect(interceptor).toBeDefined();
   });
 
-  it('it should add the token header if one is in storage', function () {
+  it('adds the token header if one is in storage', function () {
     storage('Bearer dummy-token-1234');
     expect(interceptor.request({ headers: {} }).headers.Authorization).toBe('Bearer dummy-token-1234');
   });
 
-  it('it should not add the token header after it has been cleared from storage', function () {
+  it('adds the token header after it has been cleared from storage', function () {
     storage('Bearer dummy-token-5678');
     storage(false);
     expect(interceptor.request({ headers: {} }).headers.Authorization).toBeUndefined();
   });
 
-  it('it should store the token if one is in the response', function () {
+  it('stores the token if one is in the response', function () {
     interceptor.response({ headers: function () {
       return 'Bearer dummy-token-9012';
     }});
     expect(storage()).toBe('Bearer dummy-token-9012');
   });
 
-  it('it should not modify the token if no new token is in the response', function () {
+  it('stors nothing if no new token is in the response', function () {
     storage('Bearer dummy-token-3456');
     interceptor.response({ headers: function () {
       return false;
@@ -44,12 +44,11 @@ describe('Service: authBearerTokenHttpInterceptor', function () {
     expect(storage()).toBe('Bearer dummy-token-3456');
   });
 
-  it('it should ignore non-Bearer tokens', function () {
+  it('ignores non-Bearer tokens', function () {
     interceptor.response({ headers: function () {
       return 'foobar';
     }});
     expect(storage()).toBeUndefined();
   });
-
 
 });
