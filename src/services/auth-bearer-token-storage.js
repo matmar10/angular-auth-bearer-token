@@ -15,7 +15,7 @@ angular.module('auth.bearer-token').provider('authBearerTokenStorage', ['authBea
          * @return {object}                         - The current token
          */
         return function(newToken, authResponse) {
-          var ev, existingCookie;
+          var existingCookie;
 
           if (false === newToken || null === newToken) {
             log('authBearerTokenStorage - removing token from cookie');
@@ -26,19 +26,22 @@ angular.module('auth.bearer-token').provider('authBearerTokenStorage', ['authBea
 
           if (newToken) {
 
-            ev = authBearerTokenEvents.SESSION_UPDATE;
-
-            // if no token exists yet, we're starting the session
             existingCookie = $cookies.get(authBearerTokenCookieName);
             if (!existingCookie) {
+              // if no token exists yet, we're starting the session
               log('authBearerTokenStorage - saving token into cookie');
-              ev = authBearerTokenEvents.SESSION_START;
-            } else {
+              $cookies.put(authBearerTokenCookieName, newToken);
+              $rootScope.$broadcast(authBearerTokenEvents.SESSION_START, authResponse);
+            } else if (newToken !== existingCookie) {
+              // if token exists but it has changed, we're updating the session
               log('authBearerTokenStorage - saving updated token into cookie');
+              $cookies.put(authBearerTokenCookieName, newToken);
+              $rootScope.$broadcast(authBearerTokenEvents.SESSION_UPDATE, authResponse);
+            } else {
+              // if token is the same, no session event has occurred
+              log('authBearerTokenStorage - token matches existing; no event triggered');
+              $cookies.put(authBearerTokenCookieName, newToken);
             }
-
-            $cookies.put(authBearerTokenCookieName, newToken);
-            $rootScope.$broadcast(ev, authResponse);
           }
 
           return $cookies.get(authBearerTokenCookieName);

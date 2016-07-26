@@ -27,6 +27,24 @@ any request with an `Authorization`  header.
 
 Future requests will always include the authorization token.
 
+### Event system
+
+The following events are emitted via `$emit` on `$rootScope`:
+
+* `auth:session-start` - triggered when a token gets stored but no previous token existed
+* `auth:session-end` - triggered when the token is cleared
+* `auth:session-update` - triggered when a new token is stored
+
+For `auth:session-start` and `auth:session-update`, the HTTP configuration
+is passed to the handler:
+
+```
+$rootScope.$on('auth:session-start', function (ev, response) {
+  // logs the HTTP body returned that triggered the session start event
+  $log.debug('The data from session start is:', response.body);
+});
+```
+
 ## Configuration Options
 
 * `header` [default: `Authorization`] - What header should be checked/set for requests
