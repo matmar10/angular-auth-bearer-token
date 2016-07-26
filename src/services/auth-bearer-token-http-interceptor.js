@@ -54,7 +54,7 @@ angular.module('auth.bearer-token').provider('authBearerTokenHttpInterceptor', f
           }
 
           log('authBearerTokenHttpInterceptor::response - authorization is present present in response (will update storage)');
-          bearerTokenStorage(token);
+          bearerTokenStorage(token, response);
           return response;
         }
       };

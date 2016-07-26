@@ -8,8 +8,14 @@ angular.module('auth.bearer-token').provider('authBearerTokenStorage', ['authBea
         var log = authBearerTokenHttpInterceptorProvider.options.log ?
           $log[authBearerTokenHttpInterceptorProvider.options.log] : function () {};
 
-        return function(newToken) {
-          var event, existingCookie;
+        /**
+         * Get or set the auth token to be included in
+         * @param  {string|false|null} newToken     - New token or false/null to clear the token
+         * @param  {object}            authResponse - The HTTP Response; used by the interceptor
+         * @return {object}                         - The current token
+         */
+        return function(newToken, authResponse) {
+          var ev, existingCookie;
 
           if (false === newToken || null === newToken) {
             log('authBearerTokenStorage - removing token from cookie');
@@ -20,19 +26,19 @@ angular.module('auth.bearer-token').provider('authBearerTokenStorage', ['authBea
 
           if (newToken) {
 
-            event = authBearerTokenEvents.SESSION_UPDATE;
+            ev = authBearerTokenEvents.SESSION_UPDATE;
 
             // if no token exists yet, we're starting the session
             existingCookie = $cookies.get(authBearerTokenCookieName);
             if (!existingCookie) {
               log('authBearerTokenStorage - saving token into cookie');
-              event = authBearerTokenEvents.SESSION_START;
+              ev = authBearerTokenEvents.SESSION_START;
             } else {
               log('authBearerTokenStorage - saving updated token into cookie');
             }
 
             $cookies.put(authBearerTokenCookieName, newToken);
-            $rootScope.$broadcast(event);
+            $rootScope.$broadcast(ev, authResponse);
           }
 
           return $cookies.get(authBearerTokenCookieName);
