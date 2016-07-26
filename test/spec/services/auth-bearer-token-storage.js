@@ -40,50 +40,90 @@ describe('Service: authBearerTokenHttpInterceptor', function () {
   });
 
   it('should emit the session start, update, and end events', inject(function ($injector) {
-    var starts = 0, updates = 0, ends = 0, events, $rootScope;
+    var starts = [], updates = [], ends = [], events, $rootScope;
 
     events = $injector.get('authBearerTokenEvents');
     $rootScope = $injector.get('$rootScope');
 
     $rootScope.$on(events.SESSION_START, function () {
-      starts++;
+      starts.push(arguments);
     });
     $rootScope.$on(events.SESSION_END, function () {
-      ends++;
+      ends.push(arguments);
     });
     $rootScope.$on(events.SESSION_UPDATE, function () {
-      updates++;
+      updates.push(arguments);
     });
 
-    storage('Bearer token-number-1');
-    expect(starts).toBe(1);
-    expect(updates).toBe(0);
-    expect(ends).toBe(0);
+    storage('Bearer token-number-1', {
+      data: {
+        foo: 'bar'
+      }
+    });
+    expect(starts.length).toBe(1);
+    expect(starts[0][0].name).toBe('auth:session-start');
+    expect(starts[0][1]).toEqual({
+      data: {
+        foo: 'bar'
+      }
+    });
+    expect(updates.length).toBe(0);
+    expect(ends.length).toBe(0);
 
-    storage('Bearer token-number-2');
-    expect(starts).toBe(1);
-    expect(updates).toBe(1);
-    expect(ends).toBe(0);
+    storage('Bearer token-number-2', {
+      data: {
+        other: 'something'
+      }
+    });
+    expect(starts.length).toBe(1);
+    expect(updates.length).toBe(1);
+    expect(updates[0][0].name).toBe('auth:session-update');
+    expect(updates[0][1]).toEqual({
+      data: {
+        other: 'something'
+      }
+    });
+    expect(ends.length).toBe(0);
 
-    storage('Bearer token-number-3');
-    expect(starts).toBe(1);
-    expect(updates).toBe(2);
-    expect(ends).toBe(0);
+    storage('Bearer token-number-3', {
+      data: {
+        other: 'something else'
+      }
+    });
+    expect(starts.length).toBe(1);
+    expect(updates.length).toBe(2);
+    expect(updates[1][0].name).toBe('auth:session-update');
+    expect(updates[1][1]).toEqual({
+      data: {
+        other: 'something else'
+      }
+    });
+    expect(ends.length).toBe(0);
 
     storage(false);
-    expect(starts).toBe(1);
-    expect(updates).toBe(2);
-    expect(ends).toBe(1);
+    expect(starts.length).toBe(1);
+    expect(updates.length).toBe(2);
+    expect(ends.length).toBe(1);
 
-    storage('Bearer token-number-4');
-    expect(starts).toBe(2);
-    expect(updates).toBe(2);
-    expect(ends).toBe(1);
+    storage('Bearer token-number-4', {
+      data: {
+        a: 'b'
+      }
+    });
+    expect(starts.length).toBe(2);
+    expect(starts[1][0].name).toBe('auth:session-start');
+    expect(starts[1][1]).toEqual({
+      data: {
+        a: 'b'
+      }
+    });
+    expect(updates.length).toBe(2);
+    expect(ends.length).toBe(1);
 
     storage(false);
-    expect(starts).toBe(2);
-    expect(updates).toBe(2);
-    expect(ends).toBe(2);
+    expect(starts.length).toBe(2);
+    expect(updates.length).toBe(2);
+    expect(ends.length).toBe(2);
   }));
 
 });
