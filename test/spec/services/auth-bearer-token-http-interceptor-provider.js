@@ -108,7 +108,7 @@ describe('Provider: authBearerTokenHttpInterceptorProvider', function () {
     it('respects configured `regex` option', function (done) {
 
       provider.configure({
-        tokenRegexgit: /Foo/
+        tokenRegex: /Foo/
       });
 
       inject(function($log, authBearerTokenHttpInterceptor, authBearerTokenStorage) {
