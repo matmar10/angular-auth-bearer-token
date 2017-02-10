@@ -1,15 +1,15 @@
 'use strict';
 
 describe('Service: authBearerTokenHttpInterceptor', function () {
-  var $cookies, storage;
+  var $localStorage, storage;
 
   // load the controller's module
   beforeEach(module('auth.bearer-token'));
 
   // Initialize the service and a mock scope
-  beforeEach(inject(function (authBearerTokenStorage, _$cookies_) {
+  beforeEach(inject(function (authBearerTokenStorage, _$localStorage_) {
     storage = authBearerTokenStorage;
-    $cookies = _$cookies_;
+    $localStorage = _$localStorage_;
   }));
 
   it('should be defined', function () {
@@ -29,14 +29,14 @@ describe('Service: authBearerTokenHttpInterceptor', function () {
     storage('Bearer dummy-token-5678');
     storage(false);
     expect(storage()).toBeUndefined();
-    expect($cookies.bearerToken).toBeUndefined();
+    expect($localStorage.Authorization).toBeUndefined();
   });
 
   it('should store and purge the cookie', function () {
     storage('Bearer dummy-token-9012');
-    expect($cookies.get('Authorization')).toBe('Bearer dummy-token-9012');
+    expect($localStorage.Authorization).toBe('Bearer dummy-token-9012');
     storage(false);
-    expect($cookies.get('Authorization')).toBeUndefined();
+    expect($localStorage.Authorization).toBeUndefined();
   });
 
   it('should emit the session start, update, and end events', inject(function ($injector) {

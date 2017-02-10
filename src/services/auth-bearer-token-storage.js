@@ -2,8 +2,8 @@
 
 angular.module('auth.bearer-token').provider('authBearerTokenStorage', ['authBearerTokenHttpInterceptorProvider',
   function authBearerTokenStorageProvider(authBearerTokenHttpInterceptorProvider) {
-    this.$get = ['$cookies', '$log', '$rootScope', 'authBearerTokenEvents', 'authBearerTokenCookieName',
-      function($cookies, $log, $rootScope, authBearerTokenEvents, authBearerTokenCookieName) {
+    this.$get = ['$localStorage', '$log', '$rootScope', 'authBearerTokenEvents', 'authBearerTokenCookieName',
+      function($localStorage, $log, $rootScope, authBearerTokenEvents, authBearerTokenCookieName) {
 
         var log = authBearerTokenHttpInterceptorProvider.options.log ?
           $log[authBearerTokenHttpInterceptorProvider.options.log] : function () {};
@@ -19,32 +19,32 @@ angular.module('auth.bearer-token').provider('authBearerTokenStorage', ['authBea
 
           if (false === newToken || null === newToken) {
             log('authBearerTokenStorage - removing token from cookie');
-            $cookies.remove(authBearerTokenCookieName);
+            delete $localStorage[authBearerTokenCookieName];
             $rootScope.$broadcast(authBearerTokenEvents.SESSION_END);
             return null;
           }
 
           if (newToken) {
 
-            existingCookie = $cookies.get(authBearerTokenCookieName);
+            existingCookie = $localStorage[authBearerTokenCookieName];
             if (!existingCookie) {
               // if no token exists yet, we're starting the session
               log('authBearerTokenStorage - saving token into cookie');
-              $cookies.put(authBearerTokenCookieName, newToken);
+              $localStorage[authBearerTokenCookieName] = newToken;
               $rootScope.$broadcast(authBearerTokenEvents.SESSION_START, authResponse);
             } else if (newToken !== existingCookie) {
               // if token exists but it has changed, we're updating the session
               log('authBearerTokenStorage - saving updated token into cookie');
-              $cookies.put(authBearerTokenCookieName, newToken);
+              $localStorage[authBearerTokenCookieName] = newToken;
               $rootScope.$broadcast(authBearerTokenEvents.SESSION_UPDATE, authResponse);
             } else {
               // if token is the same, no session event has occurred
               log('authBearerTokenStorage - token matches existing; no event triggered');
-              $cookies.put(authBearerTokenCookieName, newToken);
+              $localStorage[authBearerTokenCookieName] = newToken;
             }
           }
 
-          return $cookies.get(authBearerTokenCookieName);
+          return $localStorage[authBearerTokenCookieName];
         };
       }
     ];

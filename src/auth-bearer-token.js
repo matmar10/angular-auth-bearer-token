@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('auth.bearer-token', ['ngCookies'])
+angular.module('auth.bearer-token', ['ngStorage'])
   .config([
     '$httpProvider',
     function ($httpProvider) {

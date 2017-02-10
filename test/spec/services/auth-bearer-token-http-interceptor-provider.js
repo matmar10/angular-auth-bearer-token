@@ -2,13 +2,13 @@
 
 describe('Provider: authBearerTokenHttpInterceptorProvider', function () {
 
-  var provider;
+  var fakeModule, provider;
 
   // @see http://stackoverflow.com/questions/14771810/how-to-test-angularjs-custom-provider
   beforeEach(function () {
 
     // Initialize the service provider by injecting it to a fake module's config block
-    var fakeModule = angular.module('testApp', function () {});
+    fakeModule = angular.module('testApp', []);
     fakeModule.config(function (authBearerTokenHttpInterceptorProvider) {
       provider = authBearerTokenHttpInterceptorProvider;
     });
@@ -17,7 +17,6 @@ describe('Provider: authBearerTokenHttpInterceptorProvider', function () {
 
     // Kickstart the injectors previously registered with calls to angular.mock.module
     inject(function () {});
-
   });
 
   it('configures header', function () {
@@ -50,6 +49,8 @@ describe('Provider: authBearerTokenHttpInterceptorProvider', function () {
 
 describe('Provider: authBearerTokenHttpInterceptorProvider', function () {
 
+  var fakeModule, provider;
+
   describe('authBearerTokenHttpInterceptor', function () {
 
     var provider;
@@ -58,7 +59,7 @@ describe('Provider: authBearerTokenHttpInterceptorProvider', function () {
     beforeEach(function () {
 
       // Initialize the service provider by injecting it to a fake module's config block
-      var fakeModule = angular.module('testApp', function () {});
+      fakeModule = angular.module('testApp', []);
       fakeModule.config(function (authBearerTokenHttpInterceptorProvider) {
         provider = authBearerTokenHttpInterceptorProvider;
       });
@@ -96,10 +97,12 @@ describe('Provider: authBearerTokenHttpInterceptorProvider', function () {
       });
 
       inject(function($log, authBearerTokenHttpInterceptor, authBearerTokenStorage) {
-        authBearerTokenHttpInterceptor.response({ headers: function (header) {
-          expect(header).toBe('qc');
-          return 'Bearer dummy-token-9012';
-        }});
+        authBearerTokenHttpInterceptor.response({
+          headers: function (header) {
+            expect(header).toBe('qc');
+            return 'Bearer dummy-token-9012';
+          }
+        });
         expect(authBearerTokenStorage()).toBe('Bearer dummy-token-9012');
         done();
       });
@@ -112,10 +115,12 @@ describe('Provider: authBearerTokenHttpInterceptorProvider', function () {
       });
 
       inject(function($log, authBearerTokenHttpInterceptor, authBearerTokenStorage) {
-        authBearerTokenHttpInterceptor.response({ headers: function () {
-          return 'Bearer dummy-token-1234';
-        }});
-        expect(authBearerTokenStorage()).toBe('Bearer dummy-token-9012');
+        authBearerTokenHttpInterceptor.response({
+          headers: function () {
+            return 'Bearer dummy-token-1234';
+          }
+        });
+        expect(authBearerTokenStorage()).toBeUndefined;
         done();
       });
     });

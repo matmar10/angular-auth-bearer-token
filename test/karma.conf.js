@@ -23,8 +23,8 @@ module.exports = function(config) {
     files: [
       // bower:js
       'bower_components/angular/angular.js',
-      'bower_components/angular-cookies/angular-cookies.js',
       'bower_components/angular-mocks/angular-mocks.js',
+      'bower_components/ngstorage/ngStorage.js',
       // endbower
       "src/**/*.js",
       "test/spec/**/*.js"
