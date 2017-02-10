@@ -107,6 +107,8 @@ Please adhere to JSHint code quality standard as specified in .jshintrc
 
 ## Releases
 
+* **1.3.0**: Move to $localStorage instead of $cookies to work around android issues on cordova
+* **1.2.0**: Add configuration options for non-standard token names / header names
 * **1.1.0**: Add configuration options and examples in README
 * **1.0.2**: Add build status to README
 * **1.0.1**: Add travis CI
